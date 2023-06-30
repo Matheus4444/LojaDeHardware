@@ -1,4 +1,4 @@
-package br.edu.iff.bsi.LojaDeHardware.controller;
+package br.edu.iff.bsi.LojaDeHardware.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
