@@ -1,76 +1,52 @@
 package br.edu.iff.bsi.LojaDeHardware.entities;
 
+import java.io.Serializable;
+import java.util.Collection;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
-public class Loja {
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
-	private String nome;
-	private String cnpj;
-	private Endereco endereco;
-	private Telefone telefone;
-	private Parte parte;
-	
-	public Loja(long id, String nome, String cnpj, Endereco endereco, Telefone telefone, Parte parte) {
-		this.id = id;
-		this.nome = nome;
-		this.cnpj = cnpj;
-		this.endereco = endereco;
-		this.telefone = telefone;
-		this.parte = parte;
+public class Loja implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column(nullable = false)
+	private static final String nome = "Loja De Hardware";
+	@Column(nullable = false)
+	private static final String cnpj = "29.235.567/0001-17";
+	@OneToOne
+	private static final Endereco endereco = new Endereco("Rua das pavorosas", 69, "Parque Dom Juan",
+			"Campos dos Goytacazes", "RJ", "27189-528");
+	@ElementCollection
+	@OneToMany
+	private Collection<Parte> parte;
+
+	public Loja() {
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
+	public static String getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCnpj() {
+	public static String getCnpj() {
 		return cnpj;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public Endereco getEndereco() {
+	public static Endereco getEndereco() {
 		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
-	public Telefone getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
-
-	public Parte getParte() {
-		return parte;
-	}
-
-	public void setParte(Parte parte) {
-		this.parte = parte;
-	}
-	
+	}	
 	
 }

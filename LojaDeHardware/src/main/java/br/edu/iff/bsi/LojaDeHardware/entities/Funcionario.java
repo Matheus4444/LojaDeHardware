@@ -7,28 +7,13 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Funcionario extends Pessoa{
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
-	private String login;
 
-	public Funcionario(String nome, String email, String cpf, String password, Telefone telefone, String login, Endereco endereco) {
-		super(nome, email, cpf, password, telefone, endereco);
-		this.login = login;
-	}
-	
-	public long getId() {
-		return id;
-	}
-	
-	public void setId(long id) {
-		this.id = id;
+	public Funcionario(String nome, String email, String cpf, String password) {
+		super(nome, email, cpf, password);
 	}
 
-	public String getLogin() {
-		return login;
+	public Funcionario() {
+		
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
 }

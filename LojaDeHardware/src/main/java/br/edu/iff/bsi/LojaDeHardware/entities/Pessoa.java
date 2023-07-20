@@ -1,60 +1,70 @@
 package br.edu.iff.bsi.LojaDeHardware.entities;
 
-import jakarta.persistence.Entity;
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
-@Entity
-public abstract class Pessoa {
-	@Id @GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+@MappedSuperclass
+public abstract class Pessoa implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column(nullable = false)
 	private String nome;
+	@Column(nullable = false)
 	private String email;
+	@Column(nullable = false)
 	private String cpf;
+	@Column(nullable = false)
 	private String password;
-	private Telefone telefone;
-	private Endereco endereco;
-	
-	public Pessoa(String nome, String email, String cpf, String password, Telefone telefone, Endereco endereco) {
+
+	public Pessoa(String nome, String email, String cpf, String password) {
 		this.nome = nome;
 		this.email = email;
 		this.cpf = cpf;
 		this.password = password;
-		this.telefone = telefone;
-		this.endereco = endereco;
 	}
 	
-	public long getId() {
+	public Pessoa() {
+		
+	}
+
+	public Long getId() {
 		return id;
 	}
-	
-	public void setId(long id) {
+
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public String getNome() {
-		return nome;
-	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	
-	public String getEmail() {
-		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getCpf() {
-		return cpf;
-	}
-	
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getCpf() {
+		return cpf;
 	}
 
 	public String getPassword() {
@@ -64,21 +74,4 @@ public abstract class Pessoa {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public Telefone getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	
 }
