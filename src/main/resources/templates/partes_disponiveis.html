@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Lista de Partes Disponíveis</title>
+</head>
+<body>
+<h1>Lista de Partes Disponíveis</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Tipo de Parte</th>
+        <th>Ação</th>
+    </tr>
+    <!-- Loop para exibir os partes disponíveis -->
+    <tr th:each="parte : ${partes}">
+        <td th:text="${parte.id}"></td>
+        <td th:text="${parte.nome}"></td>
+        <td th:text="${parte.preco}"></td>
+        <td th:text="${parte.tipoPeca}"></td>
+        <td>
+            <!-- Botão para adicionar o parte à lista de compras -->
+            <form action="/listaCompras/adicionarParte" method="post">
+                <!-- Hidden input para enviar o ID do cliente (você pode substituir o valor 1 pelo ID do cliente real) -->
+                <input type="hidden" name="clienteId" value="1">
+                <!-- Hidden input para enviar o ID do parte -->
+                <input type="hidden" name="parteId" th:value="${parte.id}">
+                <button type="submit">Adicionar à Lista</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

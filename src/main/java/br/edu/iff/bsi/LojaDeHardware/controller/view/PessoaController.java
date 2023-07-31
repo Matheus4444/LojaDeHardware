@@ -1,0 +1,11 @@
+package br.edu.iff.bsi.LojaDeHardware.controller.view;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("pessoa")
+public class PessoaController {
+
+
+}

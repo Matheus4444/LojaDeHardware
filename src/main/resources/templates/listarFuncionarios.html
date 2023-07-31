@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Listar Funcionários</title>
+</head>
+<body>
+    <h1>Listagem de Funcionários</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>CPF</th>
+            <th>Ações</th>
+        </tr>
+        <!-- Itera sobre a lista de funcionários e exibe suas informações -->
+        <tr th:each="funcionario : ${funcionarios}">
+            <td th:text="${funcionario.id}"></td>
+            <td th:text="${funcionario.nome}"></td>
+            <td th:text="${funcionario.email}"></td>
+            <td th:text="${funcionario.cpf}"></td>
+            <td>
+                <form th:action="@{/funcionario/deleteFuncionario}" method="post">
+                    <!-- Adicione um campo hidden para enviar o ID do funcionário a ser excluído -->
+                    <input type="hidden" th:name="id" th:value="${funcionario.id}" />
+                    <button type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
