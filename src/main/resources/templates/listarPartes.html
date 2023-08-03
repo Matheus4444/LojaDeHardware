@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Partes</title>
+</head>
+<body>
+    <h1>Lista de Partes</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="parte : ${partes}">
+            <td th:text="${parte.nome}"></td>
+            <td th:text="${parte.preco}"></td>
+            <td th:text="${parte.tipoPeca}"></td>
+            <td>
+                <a th:href="@{/parte/editar(id=${parte.id})}">Editar</a>
+                <a th:href="@{/parte/excluir(id=${parte.id})}">Excluir</a>
+            </td>
+        </tr>
+    </table>
+    <a href="/parte/cadastro">Adicionar Parte</a>
+</body>
+</html>

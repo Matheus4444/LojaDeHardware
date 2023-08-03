@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Funcionário</title>
+</head>
+<body>
+    <h1>Editar Funcionário</h1>
+    <form action="/funcionario/updateFuncionario" method="post">
+        <input type="hidden" id="id" name="id" th:value="${funcionario.id}" />
+        <fieldset>
+            <label>Username: </label><br>
+            <input type="text" id="nome" name="nome" th:value="${funcionario.nome}" /><br>
+            <label>Email: </label><br>
+            <input type="text" id="email" name="email" th:value="${funcionario.email}" /><br>
+            <label>CPF: </label><br>
+            <input type="text" id="cpf" name="cpf" th:value="${funcionario.cpf}" /><br>
+            <label>Password:</label><br>
+            <input type="password" id="password" name="password" th:value="${funcionario.password}" /><br><br>
+            <button type="submit" value="salvar">Salvar</button>
+        </fieldset>
+    </form>
+</body>
+</html>
