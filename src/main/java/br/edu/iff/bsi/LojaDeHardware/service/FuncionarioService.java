@@ -20,9 +20,9 @@ public class FuncionarioService {
 	public Funcionario findById(Long id) {
 		return funcionarioRep.findById(id).orElse(null);
 	}
-
-	public void deleteCliente(Funcionario funcionario) {
-		funcionarioRep.delete(funcionario);
+	
+	public Funcionario findByCpf(String cpf) {
+		return funcionarioRep.buscarPeloCPF(cpf);
 	}
 
 	public List<Funcionario> findAll() {
@@ -30,14 +30,20 @@ public class FuncionarioService {
 	}
 
 	public Funcionario updateFuncionario(Funcionario funcionario) {
-		if (funcionario.getId() != null) {
-			return funcionarioRep.save(funcionario);
-		} else {
-			throw new RuntimeException("Funcionário inexistente. Primeiro adicione o funcionário.");
-		}
-	}
+        if (funcionario.getId() != null) {
+            return funcionarioRep.save(funcionario);
+        } else {
+            throw new RuntimeException("Funcionário inexistente. Primeiro adicione o funcionário.");
+        }
+    }
 
-	public void deleteFuncionario(Long funcionarioId) {
-		funcionarioRep.deleteById(funcionarioId);
-	}
+    public String deleteFuncionario(String cpf) {
+    	Funcionario f = funcionarioRep.buscarPeloCPF(cpf);
+		if(f!=null) {	
+			funcionarioRep.delete(f);
+			return "Funcionario deletado no id "+f.getId();
+		}else {
+			return "Funcionario não encontrado";
+		}
+    }
 }
