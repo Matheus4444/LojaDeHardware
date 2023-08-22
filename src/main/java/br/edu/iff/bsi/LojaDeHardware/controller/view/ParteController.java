@@ -24,38 +24,39 @@ public class ParteController {
 	@GetMapping("/cadastro")
 	public String showCadastroParteForm(Model model) {
 		model.addAttribute("parte", new Parte());
-		return "parte"; // nome do arquivo HTML que você criou
+		return "parte";
 	}
 
 	@PostMapping("/saveParte")
 	public String registerParte(@ModelAttribute Parte parte) {
 		parteService.salvarParte(parte);
 		return "redirect:/parte/listar";
+											
 	}
 
 	@GetMapping("/listar")
 	public String listarPartes(Model model) {
 		List<Parte> partes = parteService.listarPartes();
 		model.addAttribute("partes", partes);
-		return "listarPartes"; // Nome do arquivo HTML que exibirá a lista de partes
+		return "listaPartes";
 	}
 
 	@GetMapping("/editar")
 	public String editarParte(@RequestParam Long id, Model model) {
 		Parte parte = parteService.buscarPartePorId(id);
 		model.addAttribute("parte", parte);
-		return "editarPartes"; // Nome do arquivo HTML com o formulário de edição do parte
+		return "editarParte";
 	}
 
 	@PostMapping("/atualizar")
-	public String atualizarParte(@ModelAttribute Parte parte) {
-		parteService.atualizarParte(parte);
-		return "redirect:/parte/listar"; // Redireciona para a página que lista os partes após atualizar
+	public String atualizarParte(@RequestParam String nome, double preco, String tipoALimento) {
+		parteService.atualizarParte(nome, preco, tipoALimento);
+		return "redirect:/parte/listar";
 	}
 
 	@GetMapping("/excluir")
-	public String excluirParte(@RequestParam Long id) {
-		parteService.removerParte(id);
-		return "redirect:/parte/listar"; // Redireciona para a página que lista os partes após excluir
+	public String excluirParte(@RequestParam String nome) {
+		parteService.removerParte(nome);
+		return "redirect:/parte/listar";
 	}
 }
