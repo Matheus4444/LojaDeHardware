@@ -11,12 +11,19 @@ import br.edu.iff.bsi.LojaDeHardware.entities.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-	@Query(value = "SELECT * FROM CLIENTE", nativeQuery = true)
-	List<Cliente> selectAllCliente();
+	@Query(value="SELECT * FROM CLIENTE WHERE CPF = ?1", nativeQuery = true)
+	Cliente buscarPeloCPF(String CPF);
 
-	@Query(value = "SELECT C.ID, C.NOME, E.ID, E.RUA ,E.NUMERO, E.BAIRRO, E.CIDADE, E.ESTADO, E.CEP, CA.SALDO_DISPONIVEL "
-			+ "FROM CLIENTE C " + "JOIN ENDERECO E ON C.ID_ENDERECO = E.ID "
-			+ "JOIN CARTEIRA CA ON C.ID_CARTEIRA = CA.ID", nativeQuery = true)
-	List<String> selectAllInfoCliente();
+	@Query(value="SELECT TELEFONE FROM CLIENTE_TELEFONE JOIN CLIENTE WHERE CPF = ?1 AND TELEFONE = ?2 AND ID = CLIENTE_ID", nativeQuery = true)
+	String buscarTelefonePeloCPF(String CPF, String telefone);
+	
+	@Query(value="SELECT TELEFONE FROM CLIENTE_TELEFONE JOIN CLIENTE WHERE CPF = ?1 AND ID = CLIENTE_ID", nativeQuery = true)
+	List<String> ListarTelefonePeloCPF(String CPF);
+	
+	@Query(value="SELECT * FROM CLIENTE WHERE ID = ?1", nativeQuery = true)
+	Cliente BuscarPeloId(Long id);
+	
+	@Query(value="SELECT CLIENTE.* FROM CLIENTE, COMPRA WHERE ID_CLIENTE=CLIENTE.ID AND COMPRA.ID = ?1", nativeQuery = true)
+	Cliente BuscarPeloIdCompra(Long id);
 
 }

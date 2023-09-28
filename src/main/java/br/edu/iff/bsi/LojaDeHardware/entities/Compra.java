@@ -1,13 +1,18 @@
 package br.edu.iff.bsi.LojaDeHardware.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -15,71 +20,77 @@ import jakarta.persistence.TemporalType;
 @Entity
 public class Compra implements Serializable{
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	@Temporal(TemporalType.TIME)
-	@Column(nullable = false)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataHora;
-	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Calendar inicio;
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	private Calendar termino;
-	@Column(nullable = false)
-	private int qntdItens;
-	@ManyToOne
-	private Cliente cliente;
-	@ManyToOne
-	private Parte parte;
+	private int qtdPartes;
+	private double precoFinal;
+	private boolean finalizado;
+	private String cpfCliente;
 	
+	@ManyToMany
+	@JoinTable(name = "associacao_compra_parte",
+				joinColumns = @JoinColumn(name = "id_compra"),
+				inverseJoinColumns = @JoinColumn(name = "id_parte"))
+	private List<Parte> parte;
 
-	public Compra(Long id, Calendar dataHora, Calendar inicio, Calendar termino, int qntdItens) {
-		this.id = id;
-		this.dataHora = dataHora;
-		this.inicio = inicio;
-		this.termino = termino;
-		this.qntdItens = qntdItens;
+	public Compra(String cpfCliente) {
+		this.finalizado = false;
+		this.qtdPartes = 0;
+		this.parte = new ArrayList();
+		this.cpfCliente = cpfCliente;
+		this.dataHora = Calendar.getInstance();
 	}
-
+	public Compra() {
+		
+	}
+	
+	
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Calendar getDataHora() {
 		return dataHora;
 	}
 
-	public void setDataHora(Calendar dataHora) {
-		this.dataHora = dataHora;
+	public int getQtdPartes() {
+		return qtdPartes;
 	}
 
-	public Calendar getInicio() {
-		return inicio;
+	public double getPrecoFinal() {
+		return precoFinal;
+	}
+	
+	public String getCpfCliente() {
+		return cpfCliente;
 	}
 
-	public void setInicio(Calendar inicio) {
-		this.inicio = inicio;
+	public void setCpfCliente(String cpfCliente) {
+		this.cpfCliente = cpfCliente;
 	}
-
-	public Calendar getTermino() {
-		return termino;
+	
+	public void adicionarParte(Parte Parte) {
+		this.parte.add(Parte);
+		this.qtdPartes++;
+		this.precoFinal+=Parte.getPreco();
 	}
-
-	public void setTermino(Calendar termino) {
-		this.termino = termino;
+	
+	public void removerParte(Parte Parte) {
+		this.parte.remove(Parte);
+		this.qtdPartes--;
+		this.precoFinal-=Parte.getPreco();
 	}
-
-	public int getqntdItens() {
-		return qntdItens;
+	
+	public void finalizar() {
+		this.finalizado = true;
+		this.dataHora = Calendar.getInstance();
 	}
-
-	public void setqntdItens(int qntdItens) {
-		this.qntdItens = qntdItens;
+	
+	public boolean isFinalizado() {
+		return this.finalizado;
 	}
 }

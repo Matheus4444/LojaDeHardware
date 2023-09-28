@@ -1,26 +1,20 @@
-package br.edu.iff.bsi.LojaDeHardware.controller.view;
+	package br.edu.iff.bsi.LojaDeHardware.controller.view;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.edu.iff.bsi.LojaDeHardware.entities.Carteira;
 import br.edu.iff.bsi.LojaDeHardware.entities.Cliente;
-import br.edu.iff.bsi.LojaDeHardware.entities.Endereco;
 import br.edu.iff.bsi.LojaDeHardware.service.CarteiraService;
 import br.edu.iff.bsi.LojaDeHardware.service.ClienteService;
 import br.edu.iff.bsi.LojaDeHardware.service.EnderecoService;
-import jakarta.persistence.EntityNotFoundException;
 
 @Controller
 @RequestMapping(path = "/cliente")
@@ -34,61 +28,41 @@ public class ClienteController {
 	CarteiraService carteiraServ;
 
 	@GetMapping
-	public String page() {
-		return "layoutBase";
+	public String page(Model model) {
+		Cliente cliente = new Cliente();
+	    model.addAttribute("cliente", cliente);
+		return "cliente";
+	}
+
+	@GetMapping("/crud")
+	public String page2(Model model) {
+		List<Cliente> clientes = clienteServ.listarClientes();
+		model.addAttribute("clientes", clientes);
+		return "listarClientes";
 	}
 
 	@PostMapping("/addCliente")
 	@ResponseBody
-	public String addPessoa(Cliente cliente, @RequestParam String telefones, @RequestParam String rua,
-			@RequestParam int numero, @RequestParam String bairro, @RequestParam String cidade,
-			@RequestParam String estado, @RequestParam String cep) throws Exception {
+	public String addPessoa(Cliente cliente) {
 
-		Endereco endereco = new Endereco(rua, numero, bairro, cidade, estado, cep);
-
-		Endereco enderecoSalvo = enderecoServ.addEndereco(endereco);
-
-		Carteira carteira = new Carteira(0);
-
-		Carteira carteiraSalva = carteiraServ.addCarteira(carteira);
-
-		cliente.setCarteira(carteiraSalva);
-
-		cliente.setEndereco(enderecoSalvo);
-
-		cliente.setTelefones(Arrays.asList(telefones.split(",")));
-
-		clienteServ.addCliente(cliente);
-
-		return "Cliente added --> " + cliente.getId();
+		return clienteServ.addCliente(cliente);
 	}
 
 	@GetMapping("/getCliente")
 	@ResponseBody
 	public List<Cliente> getClientes() {
-		return clienteServ.findAll();
+		return clienteServ.listarClientes();
 	}
 
-	@GetMapping("/getAllCliente")
+	@PostMapping("/buscaCPF")
 	@ResponseBody
-	public List<String> getAllClientes() {
-		return clienteServ.selectAllInfoCliente();
-	}
-
-	@GetMapping("/getClienteId")
-	@ResponseBody
-	public ResponseEntity<Cliente> getCliente(@RequestParam Long id) {
-		try {
-			Cliente cliente = clienteServ.findById(id);
-			return ResponseEntity.ok(cliente);
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.notFound().build(); // Retorna status 404 - Not Found
-		}
+	public String buscarClienteCPF(String cpf) throws Exception {
+		return clienteServ.buscarClienteCPF(cpf);
 	}
 
 	@GetMapping("/alterar")
 	public String showAlterarClienteForm(@RequestParam Long id, Model model) {
-		Cliente cliente = clienteServ.findById(id);
+		Cliente cliente = clienteServ.buscarPeloID(id);
 		if (cliente != null) {
 			model.addAttribute("cliente", cliente);
 			return "alterarCliente";
@@ -98,29 +72,50 @@ public class ClienteController {
 	}
 
 	@PostMapping("/updateCliente")
-	@ResponseBody
-	public String updateCliente(@RequestParam Long id, @RequestBody Cliente clienteAtualizado) {
-		Cliente cliente = clienteServ.findById(id);
-		if (cliente != null) {
-			cliente.setNome(clienteAtualizado.getNome());
-			cliente.setEmail(clienteAtualizado.getEmail());
-			// Atualizar outras propriedades do cliente conforme necessário
-			clienteServ.addCliente(cliente);
-			return "Cliente atualizado: " + cliente.getId();
-		} else {
-			return "Cliente não encontrado";
-		}
+	public String updateCliente(@RequestParam String cpf, String nome, String email, String password, String telefone, double novoSaldo) {
+		clienteServ.atualizarCliente(cpf, nome, email, password, telefone, novoSaldo);
+		return "sucesso";
+		
 	}
 
 	@PostMapping("/deleteCliente")
 	@ResponseBody
 	public String deleteCliente(@RequestParam Long id) {
-		Cliente cliente = clienteServ.findById(id);
-		if (cliente != null) {
-			clienteServ.deleteCliente(cliente);
-			return "Cliente excluído: " + cliente.getId();
-		} else {
+		return clienteServ.deletarCliente(id);
+
+	}
+
+	@PostMapping("/listarTelefones")
+	@ResponseBody
+	public List<String> listarTelefones(String cpf) throws Exception {
+		return clienteServ.ListarTelefonePeloCPF(cpf);
+	}
+
+	@PostMapping("/addTelefone")
+	@ResponseBody
+	public String addTelefone(String cpf, String telefone) throws Exception {
+		return clienteServ.addTelefone(cpf, telefone);
+	}
+
+	@PostMapping("/removeTelefone")
+	@ResponseBody
+	public String removeTelefone(String cpf, String telefone) throws Exception {
+		return clienteServ.removeTelefone(cpf, telefone);
+	}
+
+	@PostMapping("/getSaldo")
+	@ResponseBody
+	public String verSaldo(String cpf) throws Exception {
+		double saldo = clienteServ.getSaldo(cpf);
+		if (saldo == -1) {
 			return "Cliente não encontrado";
+		} else {
+			return "Saldo: R$" + saldo;
 		}
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
 	}
 }

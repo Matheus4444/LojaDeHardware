@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Editar Parte</h1>
-    <form action="/parte/atualizar" method="post" th:object="${parte}">
+    <form th:action="@{/parte/atualizar}" method="post" th:object="${parte}">
         <input type="hidden" th:field="*{id}"> <!-- Campo oculto para enviar o ID do alimento -->
         <label for="nome">Nome:</label><br>
         <input type="text" id="nome" th:field="*{nome}"><br>

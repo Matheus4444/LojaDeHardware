@@ -1,23 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Alterar Dados do Cliente</title>
+<meta charset="UTF-8">
+<link th:href="@{/css/home.css}" rel="stylesheet" />
+<title>Alterar Dados do Cliente</title>
+<style>
+label {
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+}
+</style>
 </head>
 <body>
-    <h1>Alterar Dados do Cliente</h1>
-   <form id="alterarForm">
-    <input type="hidden" id="id" name="id" th:value="${cliente.id}" required><br>
-    <label for="nome">Nome:</label>
-    <input type="text" id="nome" name="nome" th:value="${cliente.nome}" required><br>
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" th:value="${cliente.email}" required><br>
-    <label for="cpf">CPF:</label>
-    <input type="text" id="cpf" name="cpf" th:value="${cliente.cpf}" required><br>
-    <label for="password">Senha:</label>
-    <input type="password" id="password" name="password" th:value="${cliente.password}" required><br>
-    <!-- Add other fields that can be updated -->
-    <button type="button" onclick="submitForm()">Salvar Alterações</button>
-</form>
+	<h1 class="h1Geral">Alterar Dados do Cliente</h1>
+
+	<form action="/cliente/updateCliente" method="post">
+		<div style="text-align: center; margin: 0 auto;">
+			<input type="hidden" id="id" name="id" th:value="${cliente.id}"
+				required><br> <label for="nome">Nome:</label> <input
+				type="text" id="nome" name="nome" th:value="${cliente.nome}"
+				required style="padding: 5px; border-radius: 100px"><br>
+			<label for="email">Email:</label> <input type="text" id="email"
+				name="email" th:value="${cliente.email}" required
+				style="padding: 5px; border-radius: 100px"><br> <label
+				for="cpf">CPF:</label> <input type="text" id="cpf" name="cpf"
+				th:value="${cliente.cpf}" required
+				style="padding: 5px; border-radius: 100px"><br> <label
+				for="password">Senha:</label> <input type="password" id="password"
+				name="password" th:value="${cliente.password}" required
+				style="padding: 5px; border-radius: 100px"><br> <label
+				for="telefone">Telefone:</label> <input type="text" id="telefone"
+				name="telefone" th:value="${cliente.telefone[0]}" required
+				style="padding: 5px; border-radius: 100px">
+
+		</div>
+
+
+		<br>
+		<br>
+		<br>
+		<div style="text-align: center;">
+			<h2>Carteira</h2>
+			<label for="saldo">Saldo Atual:</label> <input type="text" id="saldo"
+				name="saldo" th:value="${cliente.verSaldo}" readonly
+				style="padding: 5px; border-radius: 100px"><br> <label
+				for="novoSaldo">Novo Saldo:</label> <input type="number"
+				id="novoSaldo" name="novoSaldo" step="0.01"
+				style="padding: 5px; border-radius: 100px"><br>
+
+			<button type="submit">Salvar Alterações</button>
+		</div>
+	</form>
+
 </body>
 </html>
