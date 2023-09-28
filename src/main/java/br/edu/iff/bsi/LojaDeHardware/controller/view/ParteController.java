@@ -24,7 +24,7 @@ public class ParteController {
 	@GetMapping("/cadastro")
 	public String showCadastroParteForm(Model model) {
 		model.addAttribute("parte", new Parte());
-		return "parte";
+		return "parteForm";
 	}
 
 	@PostMapping("/saveParte")
@@ -38,25 +38,25 @@ public class ParteController {
 	public String listarPartes(Model model) {
 		List<Parte> partes = parteService.listarPartes();
 		model.addAttribute("partes", partes);
-		return "listaPartes";
+		return "listarPartes";
 	}
 
 	@GetMapping("/editar")
 	public String editarParte(@RequestParam Long id, Model model) {
 		Parte parte = parteService.buscarPartePorId(id);
 		model.addAttribute("parte", parte);
-		return "editarParte";
+		return "editarPartes";
 	}
 
 	@PostMapping("/atualizar")
-	public String atualizarParte(@RequestParam String nome, double preco, String tipoALimento) {
-		parteService.atualizarParte(nome, preco, tipoALimento);
+	public String atualizarParte(@RequestParam Long id, String nome, double preco, String tipoALimento) {
+		parteService.atualizarParte(id, nome, preco, tipoALimento);
 		return "redirect:/parte/listar";
 	}
 
 	@GetMapping("/excluir")
-	public String excluirParte(@RequestParam String nome) {
-		parteService.removerParte(nome);
+	public String excluirParte(@RequestParam Long id) {
+		parteService.removerParte(id);
 		return "redirect:/parte/listar";
 	}
 }

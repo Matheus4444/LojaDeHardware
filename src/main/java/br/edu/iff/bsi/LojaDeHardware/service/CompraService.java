@@ -167,6 +167,13 @@ public class CompraService {
 			}
 		}
 	}
+	public Cliente getClienteDaCompra(Long idCompra) {
+	    Compra compra = getCompraById(idCompra);
+	    if (compra != null) {
+	        return clienteRep.BuscarPeloIdCompra(compra.getId());
+	    }
+	    return null;
+	}
 	
 
 	public Compra getCompraById(Long id) {

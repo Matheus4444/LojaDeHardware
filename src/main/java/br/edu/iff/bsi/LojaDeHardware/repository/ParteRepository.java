@@ -18,4 +18,6 @@ public interface ParteRepository extends JpaRepository<Parte, Long> {
 	
 	@Query(value="SELECT E.* FROM PARTE E, ASSOCIACAO_COMPRA_PRODUTO CP WHERE E.ID = CP.FK_PRODUTO AND CP.FK_COMPRA = ?1", nativeQuery = true)
 	List<Parte> ListarPartePeloIdCompra(Long id);
+	
+	List<Parte> findByTipoParte(String tipo);
 }

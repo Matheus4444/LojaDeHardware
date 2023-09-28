@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import br.edu.iff.bsi.LojaDeHardware.entities.Carteira;
+import br.edu.iff.bsi.LojaDeHardware.entities.Compra;
+import br.edu.iff.bsi.LojaDeHardware.entities.Endereco;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,11 +32,11 @@ public class Cliente extends Pessoa {
 	@JoinColumn(name = "ID_CLIENTE")
 	private List<Compra> compra;
 
-	public Cliente(String nome, String email, String cpf, String password, Endereco endereco, Carteira carteira,
+	public Cliente(String nome, String email, String cpf, String password, Endereco endereco,
 			String telefone) {
 		super(nome, email, cpf, password);
 		this.endereco = endereco;
-		this.carteira = carteira;
+		this.carteira = new Carteira();
 		this.telefone.add(telefone);
 		this.compra = new ArrayList();
 	}
@@ -77,9 +80,19 @@ public class Cliente extends Pessoa {
 		}
 	}
 
-	public void adicionarTelefone(String telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone.add(telefone);
 	}
+
+	public List<String> getTelefone() {
+		return telefone;
+	}
+
+
+	public void setTelefone(List<String> telefone) {
+		this.telefone = telefone;
+	}
+
 
 	public void removerTelefone(String telefone) {
 		this.telefone.remove(telefone);

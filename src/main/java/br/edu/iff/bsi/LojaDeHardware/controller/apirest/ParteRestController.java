@@ -43,7 +43,7 @@ public class ParteRestController {
 		if (ParteBusca == null) {
 			return "Parte não achado";
 		} else {
-			return parteService.atualizarParte(ParteBusca.getNome(), preco, tipoParte);
+			return parteService.atualizarParte(id, ParteBusca.getNome(), preco, tipoParte);
 		}
 	}
 
@@ -53,7 +53,7 @@ public class ParteRestController {
 		if (ParteBusca == null) {
 			return "Parte não achado";
 		} else {
-			return parteService.removerParte(ParteBusca.getNome());
+			return parteService.removerParte(id);
 		}
 	}
 }

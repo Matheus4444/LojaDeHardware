@@ -1,4 +1,4 @@
-package br.edu.iff.bsi.LojaDeHardware.entities;
+	package br.edu.iff.bsi.LojaDeHardware.entities;
 
 import java.io.Serializable;
 import java.util.List;

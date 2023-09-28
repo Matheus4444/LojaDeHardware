@@ -32,9 +32,8 @@ public class ClienteRestController {
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public String addCliente(String nome, String email, String cpf, String password, Endereco endereco, Carteira carteira,
-			String telefone) {
-    	return clienteService.addCliente(new Cliente(nome, email, cpf, password, endereco, carteira, telefone));
+    public String addCliente(String nome, String email, String cpf, String password, Endereco endereco,	String telefone) {
+    	return clienteService.addCliente(new Cliente(nome, email, cpf, password, endereco, telefone));
     	
     }
 
@@ -66,7 +65,7 @@ public class ClienteRestController {
         if (cBusca == null) {
             return "Cliente não encontrado";
         } else {
-            clienteService.deletarCliente(cBusca.getCpf());
+            clienteService.deletarCliente(id);
             return "cliente excluído";
         }
     }

@@ -6,14 +6,14 @@
 </head>
 <body>
     <h1>Formulário de Parte</h1>
-    <form th:action="@{/parte/salvar}" method="post">
+    <form th:action="@{/parte/saveParte}" method="post" th:object="${parte}">
         <input type="hidden" th:field="*{id}"/>
         <label>Nome:</label>
         <input type="text" th:field="*{nome}" required><br>
         <label>Preço:</label>
         <input type="number" step="0.01" th:field="*{preco}" required><br>
         <label>Tipo:</label>
-        <select th:field="*{tipoPeca}">
+        <select th:field="*{tipoParte}">
             <option value="Cabo de rede">Cabo de rede</option>
             <option value="Placa de video">Placa de vídeo</option>
         </select><br>

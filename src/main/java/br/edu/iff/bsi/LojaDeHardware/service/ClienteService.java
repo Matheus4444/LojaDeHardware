@@ -1,5 +1,6 @@
 package br.edu.iff.bsi.LojaDeHardware.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ClienteService {
 		}
 	}
 	
-	public String atualizarCliente(String cpf, String nome, String email, String senha){
+	public String atualizarCliente(String cpf, String nome, String email, String senha, String telefone, double novoSaldo){
 		Cliente c = ClienteRep.buscarPeloCPF(cpf);
 		if(c==null) {
 			return "Cliente não achado";
@@ -47,13 +48,27 @@ public class ClienteService {
 			if(senha!=null) {				
 				c.setPassword(senha);
 			}
+			if (telefone != null) {
+	            // Verifique se o cliente já possui telefones na lista
+	            if (c.getTelefone() == null) {
+	                c.setTelefone(new ArrayList<>());
+	            }
+	            
+	            // Remova o telefone antigo (ou implemente lógica para atualizar o telefone desejado)
+	            c.getTelefone().clear();
+	            
+	            // Adicione o novo telefone
+	            c.getTelefone().add(telefone);
+			}
+			c.adicionarSaldo(novoSaldo);
+			
 			ClienteRep.flush();
-			return "Atualizado no id "+c.getId();
+			return "Registrado no id " + c.getId();
 		}
 	}
 	
-	public String deletarCliente(String cpf) {
-		Cliente c = ClienteRep.buscarPeloCPF(cpf);
+	public String deletarCliente(Long id) {
+		Cliente c = ClienteRep.findById(id).orElse(null);
 		if(c!=null) {	
 			ClienteRep.delete(c);
 			return "Cliente deletado no id "+c.getId();
@@ -95,7 +110,7 @@ public class ClienteService {
 			if(t!=null) {
 				return "Telefone já cadastrado";
 			}else {
-				c.adicionarTelefone(telefone);
+				c.setTelefone(telefone);
 				ClienteRep.flush();
 				return "Telefone adicionado";
 			}

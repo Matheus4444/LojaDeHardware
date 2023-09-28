@@ -3,13 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link th:href="@{/css/home.css}" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <h1>Bem-vindo à Loja de Hardware</h1>
-    <ul>
-        <li><a href="/cliente">Adicionar Cliente</a></li>
-        <li><a href="/funcionario/adicionar">Adicionar Funcionário</a></li>
-        <li><a href="/parte/cadastro">Adicionar Parte</a></li>
-    </ul>
+    <div class="topbar">
+		<li><button>
+				<a href="/cliente">Cadastro</a>
+			</button></li>
+		<li><button>
+				<a href="/cliente/login">Login</a>
+			</button></li>
+	</div>
+	<br><br>
+	<ul>
+
+		<h1 class="h1Geral">Painel do Colaborador</h1>
+		<li><button>
+				<a href="/cliente/crud">Editar Cliente</a>
+			</button></li>
+		<li><button>
+				<a href="/funcionario/adicionar">Adicionar Funcionário</a>
+			</button></li>
+		<li><button>
+				<a href="/funcionario">Editar Funcionario</a>
+			</button></li>
+		<li><button>
+				<a href="/parte/cadastro">Adicionar
+					Parte</a>
+			</button></li>
+		<li><button>
+				<a href="/parte/listar">Editar Parte</a>
+			</button></li>
+
+		<br><br><br><br><br><br>
+		<h1 class="h1Geral">Painel do Cliente</h1>
+		<li><button>
+				<a href="/cliente/crud">Editar Cliente</a>
+			</button></li>
+		
+		<li><button>
+				<a href="/compra">Compras</a>
+			</button></li>
+	</ul>
 </body>
 </html>

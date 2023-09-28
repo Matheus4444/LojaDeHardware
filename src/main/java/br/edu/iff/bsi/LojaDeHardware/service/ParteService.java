@@ -27,10 +27,10 @@ public class ParteService {
 		return parteRep.findAll();
 	}
 
-	public String atualizarParte(String nome, double preco, String tipoParte) {
-		Parte a = parteRep.buscarPeloNome(nome);
+	public String atualizarParte(Long id, String nome, double preco, String tipoParte) {
+		Parte a = parteRep.BuscarPeloId(id);
 		if(a==null) {
-			return "Parte não achado";
+			return "Parte não achada";
 		}else {		
 			if(preco > 0) {
 				a.setPreco(preco);
@@ -38,13 +38,16 @@ public class ParteService {
 			if(tipoParte !=null) {				
 				a.setTipoParte(tipoParte);
 			}
+			if(nome !=null) {				
+				a.setNome(nome);
+			}
 			parteRep.flush();
 			return "Atualizado no id "+a.getId();
 		}
 	}
 
-	public String removerParte(String nome) {
-		Parte a = parteRep.buscarPeloNome(nome);
+	public String removerParte(Long id) {
+		Parte a = parteRep.BuscarPeloId(id);
 		if(a !=null) {	
 			parteRep.delete(a);
 			return "Parte deletado no id "+a.getId();
@@ -59,5 +62,13 @@ public class ParteService {
 
 	public List<Parte> listarPartesPorIds(List<Long> ids) {
 		return parteRep.findAllById(ids);
+	}
+	
+	public List<Parte> listarPartesPorTipo(String tipo) {
+		return parteRep.findByTipoParte(tipo);
+	}
+
+	public Parte getParteByNome(String nome) {
+		return parteRep.buscarPeloNome(nome);
 	}
 }

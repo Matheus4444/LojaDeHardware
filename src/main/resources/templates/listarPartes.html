@@ -16,7 +16,7 @@
         <tr th:each="parte : ${partes}">
             <td th:text="${parte.nome}"></td>
             <td th:text="${parte.preco}"></td>
-            <td th:text="${parte.tipoPeca}"></td>
+            <td th:text="${parte.tipoParte}"></td>
             <td>
                 <a th:href="@{/parte/editar(id=${parte.id})}">Editar</a>
                 <a th:href="@{/parte/excluir(id=${parte.id})}">Excluir</a>
