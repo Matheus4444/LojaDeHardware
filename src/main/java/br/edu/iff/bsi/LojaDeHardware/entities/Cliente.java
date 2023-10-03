@@ -2,8 +2,11 @@ package br.edu.iff.bsi.LojaDeHardware.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -18,18 +21,21 @@ public class Cliente extends Pessoa {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ID_CARTEIRA", referencedColumnName = "ID", nullable = false)
 	private Carteira carteira;
+	@Nullable
 	@ElementCollection
-	private Collection<String> telefones;
-	@OneToMany(mappedBy = "cliente")
-	private Collection<Compra> compras;
+	@Column(length = 16)
+	private List<String> telefone = new ArrayList<String>();
+	@OneToMany
+	@JoinColumn(name = "ID_CLIENTE")
+	private List<Compra> compra;
 
 	public Cliente(String nome, String email, String cpf, String password, Endereco endereco, Carteira carteira,
 			String telefone) {
 		super(nome, email, cpf, password);
 		this.endereco = endereco;
 		this.carteira = carteira;
-		this.telefones = new ArrayList<>();
-		this.telefones.add(telefone);
+		this.telefone.add(telefone);
+		this.compra = new ArrayList();
 	}
 
 	public Cliente() {
@@ -44,19 +50,42 @@ public class Cliente extends Pessoa {
 		this.endereco = endereco;
 	}
 
-	public Carteira getCarteira() {
-		return carteira;
-	}
-
 	public void setCarteira(Carteira carteira) {
 		this.carteira = carteira;
 	}
 
-	public Collection<String> getTelefones() {
-		return telefones;
+	public double verSaldo() {
+		return this.carteira.getSaldoDisponivel();
 	}
 
-	public void setTelefones(Collection<String> telefones) {
-		this.telefones = telefones;
+	public void adicionarCompra(Compra compra) {
+		this.compra.add(compra);
+	}
+
+	public void removerCompra(Compra compra) {
+		this.compra.remove(compra);
+	}
+
+	public void adicionarSaldo(double saldo) {
+		this.carteira.setSaldoDisponivel(this.carteira.getSaldoDisponivel() + saldo);
+	}
+
+	public void removerSaldo(double saldo) {
+		double retirada = this.carteira.getSaldoDisponivel() - saldo;
+		if (retirada >= 0) {
+			this.carteira.setSaldoDisponivel(retirada);
+		}
+	}
+
+	public void adicionarTelefone(String telefone) {
+		this.telefone.add(telefone);
+	}
+
+	public void removerTelefone(String telefone) {
+		this.telefone.remove(telefone);
+	}
+
+	public int getQtdTelefones() {
+		return this.telefone.size();
 	}
 }
